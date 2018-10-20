@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+  webserver:
+    build: ./docker/webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./site/web:/var/www/html
+      - ./site/include:/var/web/include
+    links:
+      - db
+    container_name: web
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=docker
+      - MYSQL_DATABASE=db
+    container_name: mysql
